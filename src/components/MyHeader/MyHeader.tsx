@@ -44,7 +44,7 @@ export default function MyHeader() {
     }
 
     return (
-        <Flex align={'center'} justify={'space-between'}  gap="left" vertical>
+        <Flex align={'center'} justify={'space-between'} gap="left" vertical>
             <Menu
                 items={topNavItems}
                 mode="inline"
@@ -56,6 +56,7 @@ export default function MyHeader() {
             {isLogin && user && <Flex gap={'middle'} align={'center'}>
                 <span style={{color: 'blue'}}>{JSON.parse(user).email}</span>
                 <Button
+                    data-role="logout"
                     onClick={logoutHandler}
                     size={'small'}
                     type={'primary'}
