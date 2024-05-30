@@ -1,4 +1,4 @@
-import {Button, Form, type FormProps, Input, Table, TableProps, Tag} from 'antd';
+import {Button, Form, type FormProps, Input, Table, TableProps, Tag, message} from 'antd';
 import React, {useState, useEffect} from "react";
 import dayjs from 'dayjs';
 import {Column} from '@ant-design/charts';
@@ -11,7 +11,7 @@ import {openWeatherMapApi} from "../services/openweathermap";
 import {PollutionType} from "../types/pollutionType";
 
 const serverPort = process.env.REACT_APP_SERVER_PORT
-const serverAddress = `//localhost:${serverPort}`
+const serverBaseUrl = `//localhost:${serverPort}/api`
 
 type FieldType = {
     address: string;
@@ -75,19 +75,25 @@ type ChartDataType = {
 export default function CityPage() {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
 
     const pollutions = useSelector(getPollutionsList)
 
     useEffect(() => {
-        fetch(`${serverAddress}/pollutions`, {
+        fetch(`${serverBaseUrl}/pollutions`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            // console.log(data)
+            dispatch(setPollutionsList(data))
+        }).catch((e) => {
+            messageApi.open({
+                type: 'error',
+                content: `Невозможно загрузить историю запросов (${e.message})`,
+            });
         })
-            .then((res) => res.json())
-            .then((data) => {
-                // console.log(data)
-                dispatch(setPollutionsList(data))
-            })
 
     }, [dispatch]);
 
@@ -227,6 +233,8 @@ export default function CityPage() {
                     >Получить</Button>
                 </Form.Item>
             </Form>
+
+            {contextHolder}
 
             {!!pollutions.length &&
                 <Table

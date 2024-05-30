@@ -5,12 +5,14 @@ import {geocoderApi} from '../services/geocoder'
 import {openWeatherMapApi} from "../services/openweathermap";
 import {useDispatch} from "react-redux";
 import pollutionsSlice from "./pollutionsSlice";
+import {serverApi} from "../services/serverApi";
 
 export const store = configureStore({
     reducer: {
         // Add the generated reducer as a specific top-level slice
         [geocoderApi.reducerPath]: geocoderApi.reducer,
         [openWeatherMapApi.reducerPath]: openWeatherMapApi.reducer,
+        [serverApi.reducerPath]: serverApi.reducer,
         pollutions: pollutionsSlice,
     },
     // Adding the api middleware enables caching, invalidation, polling,
@@ -18,7 +20,8 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
             .concat(geocoderApi.middleware)
-            .concat(openWeatherMapApi.middleware),
+            .concat(openWeatherMapApi.middleware)
+            .concat(serverApi.middleware),
 })
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

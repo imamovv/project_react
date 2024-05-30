@@ -4,7 +4,7 @@ import './App.css'
 
 import { Layout } from 'antd';
 
-const { Sider, Footer, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 function App() {
     return (

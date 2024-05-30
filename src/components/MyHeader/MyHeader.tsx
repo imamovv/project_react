@@ -13,39 +13,41 @@ export default function MyHeader() {
         });
     }
 
-
-    let topNavItems: MenuProps['items'] = [
+    const topNavItems: MenuProps['items'] = [
         {
             key: '/',
             label: <NavLink to="/">Главная</NavLink>
         },
+        {
+            key: '/pollution',
+            label: <NavLink to="/pollution">Загрязнения</NavLink>,
+            disabled: !isLogin
+        },
+        {
+            key: '/city',
+            label: <NavLink to="/city">Информация о городе</NavLink>,
+            disabled: !isLogin
+        },
+        {
+            key: '/login',
+            label: <NavLink to="/login">Вход</NavLink>,
+            disabled: isLogin
+        },
+        {
+            key: '/registration',
+            label: <NavLink to="/registration">Регистрация</NavLink>,
+            disabled: isLogin
+        },
+        {
+            key: '/articles',
+            label: <NavLink to="/articles">Статьи</NavLink>,
+        },
     ];
 
-    if (isLogin) {
-        topNavItems.push({
-            key: '/pollution',
-            label: <NavLink to="/pollution">Загрязнения</NavLink>
-        })
-        topNavItems.push({
-            key: '/city',
-            label: <NavLink to="/city">Информация о городе</NavLink>
-        })
-    } else {
-        topNavItems.push(...[
-            {
-                key: '/login',
-                label: <NavLink to="/login">Вход</NavLink>
-            },
-            {
-                key: '/registration',
-                label: <NavLink to="/registration">Регистрация</NavLink>
-            },
-        ])
-    }
-
     return (
-        <Flex align={'center'} justify={'space-between'} gap="left" vertical>
+        <Flex align={'center'} gap="left" vertical>
             <Menu
+                style={{flexGrow: 1}}
                 items={topNavItems}
                 mode="inline"
                 theme="light"

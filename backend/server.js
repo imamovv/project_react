@@ -3,14 +3,16 @@ const express = require('express');
 const path = require('node:path');
 const {authRouter} = require('./routes/authRouter')
 const {pollutionRouter} = require("./routes/pollutionsRouter");
+const {articlesRouter} = require("./routes/articlesRouter");
 const server = express();
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
 server.use(bodyParser.json());
 server.use(cors());
-server.use('/auth', authRouter);
-server.use('/pollutions', pollutionRouter);
+server.use('/api/auth', authRouter);
+server.use('/api/pollutions', pollutionRouter);
+server.use('/api/articles', articlesRouter);
 
 // статика frontend React
 server.use(express.static(path.join(__dirname, '../build')));

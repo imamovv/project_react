@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const serverPort = process.env.REACT_APP_SERVER_PORT
-const serverAddress = `//localhost:${serverPort}`
+const serverBaseUrl = `//localhost:${serverPort}/api`
 
 const pollutionsSlice = createSlice({
     name: 'pollutions',
@@ -18,7 +18,7 @@ const pollutionsSlice = createSlice({
         addPollution: (state, action: { payload: PollutionType, type: string }) => {
             state.list = [action.payload, ...state.list]
 
-            fetch(`${serverAddress}/pollutions`, {
+            fetch(`${serverBaseUrl}/pollutions`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(action.payload),
